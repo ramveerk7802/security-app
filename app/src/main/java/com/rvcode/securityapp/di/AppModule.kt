@@ -1,6 +1,8 @@
 package com.rvcode.securityapp.di
 
+import android.app.AppOpsManager
 import android.app.NotificationManager
+import android.content.ClipboardManager
 import android.content.Context
 import android.hardware.camera2.CameraManager
 import android.location.LocationManager
@@ -22,19 +24,13 @@ object AppModule {
     @Provides
     @Singleton
     fun providesNotificationManager(@ApplicationContext context: Context): NotificationManager{
-        return ContextCompat.getSystemService(context, NotificationManager::class.java)!!
+        return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     @Provides
     @Singleton
-    fun providesCameraManager(@ApplicationContext context: Context): CameraManager{
-        return context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-    }
-
-    @Provides
-    @Singleton
-    fun providesAudioManager(@ApplicationContext context: Context): AudioManager {
-        return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    fun provideClipboardManager(@ApplicationContext context: Context): ClipboardManager {
+        return context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
 
     @Provides
@@ -42,4 +38,16 @@ object AppModule {
     fun provideLocationManager(@ApplicationContext context: Context): LocationManager {
         return context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
+
+    @Provides
+    @Singleton
+    fun provideCameraManager(@ApplicationContext context: Context): CameraManager {
+        return context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    }
+    @Provides
+    @Singleton
+    fun provideAudioManager(@ApplicationContext context: Context): AudioManager {
+        return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    }
+
 }
