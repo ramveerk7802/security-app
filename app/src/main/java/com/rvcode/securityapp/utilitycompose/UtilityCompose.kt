@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -30,7 +31,11 @@ fun RiskyAppView(app: AppWithRisk) {
         shape = RoundedCornerShape(20.dp)
     ){
         Column (modifier = Modifier.padding(16.dp)){
-            Text(text = app.appName, style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = app.appName,
+                style = MaterialTheme.typography.titleMedium,
+                color = Color.Red
+            )
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = app.riskDescription, style = MaterialTheme.typography.bodyMedium)
         }

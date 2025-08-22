@@ -74,6 +74,7 @@ dependencies {
 
 
 
+    implementation("io.coil-kt.coil3:coil-compose:3.3.0")
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2")
     // ViewModel utilities for Compose
