@@ -10,6 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class HeuristicPhishingDetector @Inject constructor() {
 
+
     // Keywords often found in phishing URLs
     private val suspiciousKeywords = setOf(
         "login", "verify", "account", "secure", "update", "banking", "password", "confirm"
