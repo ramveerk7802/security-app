@@ -32,7 +32,6 @@ class PermissionViewModel @Inject constructor(@ApplicationContext private val co
 
     fun scanForRiskyApps() {
         _isLoading.value = true
-        // ✅ CHANGED: Switched to a background thread for the heavy lifting
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val pm = context.packageManager
@@ -52,7 +51,6 @@ class PermissionViewModel @Inject constructor(@ApplicationContext private val co
                     // First, an efficient check to see if the app even requests the dangerous combo
                     if (requestedPermissions.toSet().containsAll(dangerousCombo)) {
 
-                        // ✅ CHANGED: New logic to check if all those permissions are actually GRANTED
                         val allPermissionsGranted = dangerousCombo.all { permission ->
                             pm.checkPermission(permission, packageName) == PackageManager.PERMISSION_GRANTED
                         }
@@ -63,7 +61,6 @@ class PermissionViewModel @Inject constructor(@ApplicationContext private val co
                                 AppWithRisk(
                                     appName = appName,
                                     packageName = packageName,
-                                    // ✅ CHANGED: More accurate risk description
                                     riskDescription = "This app can use the camera, record audio, and track your precise location."
                                 )
                             )

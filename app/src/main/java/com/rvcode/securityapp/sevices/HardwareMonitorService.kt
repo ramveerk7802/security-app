@@ -21,14 +21,12 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.rvcode.securityapp.R
+import com.rvcode.securityapp.sevices.util.UtilityMethod
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class HardwareMonitorService : Service() {
-
-    @Inject
-    lateinit var notificationManager: NotificationManager
     @Inject
     lateinit var audioManager: AudioManager
     @Inject
@@ -36,10 +34,11 @@ class HardwareMonitorService : Service() {
 
     @Inject
     lateinit var locationManager: LocationManager
+
     @Inject
-    lateinit var clipboardManager: ClipboardManager
+    lateinit var utilityMethod: UtilityMethod
 
-
+    private val TAG = "MYTAG"
 
     companion object {
         private const val FOREGROUND_ID = 1
@@ -51,15 +50,16 @@ class HardwareMonitorService : Service() {
     private val cameraCallback = object : CameraManager.AvailabilityCallback(){
         override fun onCameraUnavailable(cameraId: String) {
             super.onCameraUnavailable(cameraId)
-            showAccessNotification(
-                "A camera is currently in use.",
-                CAMERA_NOTIFICATION_ID
+            utilityMethod.showAlertNotification(
+                notificationId = CAMERA_NOTIFICATION_ID,
+                title = "Privacy Alert!",
+                message = "A camera is currently in use."
             )
         }
 
         override fun onCameraAvailable(cameraId: String) {
             super.onCameraAvailable(cameraId)
-            notificationManager.cancel(CAMERA_NOTIFICATION_ID)
+            utilityMethod.cancelNotification(notificationId = CAMERA_NOTIFICATION_ID)
         }
     }
 
@@ -69,11 +69,13 @@ class HardwareMonitorService : Service() {
                 super.onRecordingConfigChanged(configs)
                 configs?.let {
                     if(it.isNotEmpty()){
-                        showAccessNotification(
-                            message = "Curently Microphone in use",
-                            notificationId = MIC_NOTIFICATION_ID)
+                        utilityMethod.showAlertNotification(
+                            notificationId = MIC_NOTIFICATION_ID,
+                            title = "Privacy Alert!",
+                            message = "Currently Microphone in use"
+                        )
                     }else{
-                        notificationManager.cancel(MIC_NOTIFICATION_ID)
+                        utilityMethod.cancelNotification(notificationId = MIC_NOTIFICATION_ID)
                     }
                 }
             }
@@ -85,47 +87,36 @@ class HardwareMonitorService : Service() {
         object : GnssStatus.Callback() {
             override fun onStarted() {
                 super.onStarted()
-                Log.d("MYTAG", "Location (GPS) is in use.")
-                showAccessNotification("Location services are active.", LOCATION_NOTIFICATION_ID)
+                utilityMethod.showAlertNotification(
+                    notificationId = LOCATION_NOTIFICATION_ID,
+                    title = "Privacy Alert!",
+                    message = "Location services are active."
+                )
             }
             override fun onStopped() {
                 super.onStopped()
                 Log.d("MYTAG", "Location (GPS) is available.")
-                notificationManager.cancel(LOCATION_NOTIFICATION_ID)
+                utilityMethod.cancelNotification(notificationId = LOCATION_NOTIFICATION_ID)
             }
         }
     } else null
 
-    private fun showAccessNotification(message: String, notificationId: Int) {
-        val channelId = "HARDWARE_ALERTS"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Hardware Alerts",
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        val alertNotification = NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Privacy Alert!")
-            .setContentText(message)
-            .setSmallIcon(R.drawable.warning) // Ensure you have this drawable resource
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setOngoing(true)
-            .build()
-
-        notificationManager.notify(notificationId, alertNotification)
-    }
 
     override fun onCreate() {
+        Log.d(TAG,"Hardware monitoring service created")
         super.onCreate()
         registerCallback()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val notification = createForegroundNotification()
+        val notification = utilityMethod.notificationForServiceRunningOrActive(
+            channelId = "MONITOR_SERVICE_CHANNEL",
+            channelName = "Monitoring Service",
+            title = "Security Active",
+            message = "Monitoring hardware resources"
+        )
+        Log.d(TAG,"Hardware monitoring service started")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             startForeground(
@@ -141,29 +132,15 @@ class HardwareMonitorService : Service() {
         return START_STICKY
     }
 
-    private fun createForegroundNotification(): Notification {
-        val channelId = "MONITOR_SERVICE_CHANNEL"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                channelId,
-                "Monitoring Service",
-                NotificationManager.IMPORTANCE_DEFAULT // Use default importance for the persistent notification
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-        return NotificationCompat.Builder(this, channelId)
-            .setContentTitle("Security Service Running")
-            .setContentText("Monitoring hardware resources")
-            .setSmallIcon(R.drawable.warning) // Ensure you have this drawable resource
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         cameraManager.unregisterAvailabilityCallback(cameraCallback)
         if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.Q){
             audioCallback?.let { audioManager.unregisterAudioRecordingCallback(it) }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && gnssStatusCallback != null) {
+            locationManager.unregisterGnssStatusCallback(gnssStatusCallback)
         }
     }
 
