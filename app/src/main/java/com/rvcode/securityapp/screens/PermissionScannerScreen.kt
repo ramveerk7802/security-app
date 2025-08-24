@@ -16,8 +16,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+<<<<<<< HEAD
+=======
+import androidx.compose.material3.Card
+>>>>>>> 0eccd0173672455d20b0efd96dc0e9f84904c9dd
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ElevatedButton
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -33,9 +38,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rvcode.securityapp.model.AppWithRisk
+<<<<<<< HEAD
 import com.rvcode.securityapp.services.ClipboardAccessibilityService
+=======
+import com.rvcode.securityapp.sevices.ClipboardAccessibilityService
+
+import com.rvcode.securityapp.sevices.HardwareMonitorService
+>>>>>>> 0eccd0173672455d20b0efd96dc0e9f84904c9dd
 import com.rvcode.securityapp.utilitycompose.RiskyAppView
 import com.rvcode.securityapp.utilitycompose.showLoading
 
@@ -64,6 +76,10 @@ fun PermissionScannerScreen(viewModel: PermissionViewModel = hiltViewModel()){
     LaunchedEffect(key1 = Unit){
         monitoringViewModel.startMonitoring()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0eccd0173672455d20b0efd96dc0e9f84904c9dd
     }
 
 

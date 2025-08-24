@@ -59,7 +59,11 @@
             android:foregroundServiceType="camera|microphone|location" />
 
         <service
+<<<<<<< HEAD
             android:name=".services.ClipboardAccessibilityService"
+=======
+            android:name=".sevices.ClipboardAccessibilityService"
+>>>>>>> 0eccd0173672455d20b0efd96dc0e9f84904c9dd
             android:label="@string/app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
