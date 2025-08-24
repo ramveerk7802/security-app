@@ -15,12 +15,12 @@ class MonitoringViewModel @Inject constructor(@ApplicationContext private val co
 
     fun startMonitoring() {
         val serviceIntent = Intent(context, HardwareMonitorService::class.java)
-        context.startForegroundService(serviceIntent)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            context.startForegroundService(serviceIntent)
-//        } else {
-//            context.stopService(serviceIntent)
-//        }
+//        context.startForegroundService(serviceIntent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(serviceIntent)
+        } else {
+            context.stopService(serviceIntent)
+        }
     }
 
     fun stopMonitoring() {
