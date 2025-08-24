@@ -28,13 +28,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
 import com.rvcode.securityapp.model.AppWithRisk
-import com.rvcode.securityapp.sevices.ClipboardAccessibilityService
-import com.rvcode.securityapp.sevices.HardwareMonitorService
+import com.rvcode.securityapp.services.ClipboardAccessibilityService
+
 import com.rvcode.securityapp.utilitycompose.RiskyAppView
 import com.rvcode.securityapp.utilitycompose.showLoading
-import com.rvcode.securityapp.viewmodels.ClipboardViewModel
+
 import com.rvcode.securityapp.viewmodels.MonitoringViewModel
 import com.rvcode.securityapp.viewmodels.PermissionViewModel
 

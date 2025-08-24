@@ -55,13 +55,13 @@
         </activity>
 
         <service
-            android:name=".sevices.HardwareMonitorService"
+            android:name=".services.HardwareMonitorService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="camera|microphone|location" />
 
         <service
-            android:name=".sevices.ClipboardAccessibilityService"
+            android:name=".services.ClipboardAccessibilityService"
             android:label="Security App Clipboard Monitor"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="false">
