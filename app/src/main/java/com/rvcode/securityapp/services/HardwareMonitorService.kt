@@ -1,11 +1,7 @@
-package com.rvcode.securityapp.sevices
+package com.rvcode.securityapp.services
 
 import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
-import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
 
@@ -18,10 +14,8 @@ import android.media.AudioRecordingConfiguration
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.rvcode.securityapp.R
-import com.rvcode.securityapp.sevices.util.UtilityMethod
+import com.rvcode.securityapp.services.util.UtilityMethod
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

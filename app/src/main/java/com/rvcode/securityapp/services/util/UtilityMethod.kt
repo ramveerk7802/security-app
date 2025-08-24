@@ -1,4 +1,4 @@
-package com.rvcode.securityapp.sevices.util
+package com.rvcode.securityapp.services.util
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -36,6 +36,7 @@ class UtilityMethod @Inject constructor(
             .setContentTitle(title)
             .setContentText(message)
             .setSmallIcon(R.drawable.warning)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(false)
             .setAutoCancel(true)
