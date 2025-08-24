@@ -1,6 +1,6 @@
 # Android Security Application
 
-This project is an Android security application designed to protect users from common privacy and security threats on their mobile devices. It actively monitors device permissions and hardware access to provide real-time alerts and insights into potential vulnerabilities.
+This project is an Android security application designed to protect users from common privacy and security threats on their mobile devices. It actively monitors device permissions, hardware access, and potential phishing links to provide real-time alerts and insights into potential vulnerabilities.
 
 ---
 
@@ -22,6 +22,14 @@ This module helps users understand the risks associated with the permissions gra
 * **App Scanner**: The application can perform a full scan of all installed apps to analyze their requested permissions.
 * **Risk Highlighting**: It specifically identifies apps that have **dangerous permission combinations** (e.g., an app having access to the microphone, SMS, and location simultaneously).
 * **User-Friendly Explanations**: For each high-risk app detected, the application provides a clear and simple explanation of the potential risks, helping the user make informed decisions about keeping or removing the app.
+
+### 3. AI/Heuristic Phishing Detection
+
+This feature proactively protects users from malicious links copied to the clipboard.
+
+* **Clipboard Monitoring**: The app actively monitors the device's clipboard. When a URL is copied, it is instantly analyzed for phishing threats.
+* **Proactive Alerts**: If a risky link is detected, the app immediately alerts the user, preventing them from opening a potentially harmful website.
+* **Upcoming**: Support for scanning incoming notifications for suspicious links is currently in development.
 
 ---
 
@@ -52,10 +60,15 @@ This module helps users understand the risks associated with the permissions gra
 4.  The results will display a list of installed apps, highlighting any with risky permission combinations.
 5.  Tap on a flagged app to view the detailed explanation of the associated risks.
 
+#### To Test Phishing Detection:
+
+1.  Grant the necessary permissions for clipboard access when prompted by the app.
+2.  **Clipboard Test**: Copy a known suspicious URL (e.g., `http://example-login-phishing-test.com`) to your clipboard. You should receive an immediate alert about a risky link.
+
 ---
 
 ## Limitations and Assumptions
 
-* **Feature Scope**: This version includes 2 out of the 4 core requirements. The **AI/Heuristic Phishing Detection** and **Panic Mode** features are not yet implemented.
+* **Feature Scope**: This version includes 3 out of the 4 core requirements. The **Panic Mode** feature is not yet implemented.
 * **Android Version**: The application is built and tested for **Android API 29+ (Android 10 and newer)**. Functionality on older versions is not guaranteed.
 * **Background Restrictions**: Device-specific battery optimizations (common on phones from manufacturers like Xiaomi, Huawei, or OnePlus) might occasionally delay or block background monitoring. For best results, the user may need to disable battery optimization for this app manually.
