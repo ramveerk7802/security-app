@@ -13,6 +13,7 @@ class VoiceAlertService : Service(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech?=null
     private var lastMessage: String?=null
     private val TAG = "VOICEALERTSERVICE"
+
     override fun onCreate() {
         super.onCreate()
         tts = TextToSpeech(this,this)
