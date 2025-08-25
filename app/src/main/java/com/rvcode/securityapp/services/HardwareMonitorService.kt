@@ -41,14 +41,29 @@ class HardwareMonitorService : Service() {
         private const val LOCATION_NOTIFICATION_ID = 103
     }
 
+
+    // helper function for triger voice alert
+
+    fun startVoiceAlert(message: String){
+        val intent = Intent(this, VoiceAlertService::class.java)
+        intent.putExtra("VOICE_MESSAGE",message)
+        startService(intent)
+    }
+
+
+
+
+
     private val cameraCallback = object : CameraManager.AvailabilityCallback(){
         override fun onCameraUnavailable(cameraId: String) {
             super.onCameraUnavailable(cameraId)
+            val msg = "Privacy Alert! Camera is currently in use."
             utilityMethod.showAlertNotification(
                 notificationId = CAMERA_NOTIFICATION_ID,
                 title = "Privacy Alert!",
                 message = "A camera is currently in use."
             )
+            startVoiceAlert(msg)
         }
 
         override fun onCameraAvailable(cameraId: String) {
@@ -63,11 +78,13 @@ class HardwareMonitorService : Service() {
                 super.onRecordingConfigChanged(configs)
                 configs?.let {
                     if(it.isNotEmpty()){
+                        val msg = "Privacy Alert! Currently Microphone in use"
                         utilityMethod.showAlertNotification(
                             notificationId = MIC_NOTIFICATION_ID,
                             title = "Privacy Alert!",
                             message = "Currently Microphone in use"
                         )
+                        startVoiceAlert(message = msg)
                     }else{
                         utilityMethod.cancelNotification(notificationId = MIC_NOTIFICATION_ID)
                     }
@@ -81,11 +98,13 @@ class HardwareMonitorService : Service() {
         object : GnssStatus.Callback() {
             override fun onStarted() {
                 super.onStarted()
+                val msg = "Privacy Alert! Location services are active."
                 utilityMethod.showAlertNotification(
                     notificationId = LOCATION_NOTIFICATION_ID,
                     title = "Privacy Alert!",
                     message = "Location services are active."
                 )
+                startVoiceAlert(msg)
             }
             override fun onStopped() {
                 super.onStopped()

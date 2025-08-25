@@ -48,7 +48,7 @@ import com.rvcode.securityapp.viewmodels.PermissionViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermissionScannerScreen(viewModel: PermissionViewModel = hiltViewModel()){
-    Log.d("SCREEN","PermissionScannerScreen")
+   
     val riskyApps = viewModel.riskyApps.collectAsState().value
 
     val isLoading = viewModel.isLoading.collectAsState().value
